@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class ProductSchema(BaseModel):
-    descriptionn: str
+    description: str
     price: float
     technical_details: str
     image: str
