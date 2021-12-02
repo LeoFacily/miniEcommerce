@@ -4,7 +4,7 @@ from fastapi import Depends
 
 from app.models.models import Categories
 
-from .schemas import CategorySchema
+from .schemas import CategorySchema, ShowCategorySchema
 
 from sqlalchemy.orm import Session
 from app.db.db import get_db
@@ -19,6 +19,9 @@ def create(category: CategorySchema, db: Session = Depends(get_db)):
 #@router.get('/', response_model=List[ShowProductSchema])
 @router.get('/')
 def index(db: Session = Depends(get_db)):
-    return db.query(Categories).all()
+    return db.query(Categories).all()    
 
+@router.get('/{id}', response_model=ShowCategorySchema)
+def show(id: int, db: Session = Depends(get_db)):
+    return db.query(Categories).filter_by(id=id).first()
 

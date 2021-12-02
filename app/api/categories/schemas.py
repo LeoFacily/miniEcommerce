@@ -4,3 +4,8 @@ class CategorySchema(BaseModel):
     id: int
     name: str
 
+class ShowCategorySchema(CategorySchema):
+    id: int
+    
+    class Config:
+        orm_mode = True

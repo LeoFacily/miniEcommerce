@@ -3,7 +3,7 @@ from fastapi import APIRouter, status
 from fastapi import Depends
 
 from app.models.models import Suppliers
-from .schemas import SuppliersSchema
+from .schemas import SuppliersSchema, ShowSuppliersSchema
 
 from sqlalchemy.orm import Session
 from app.db.db import get_db
@@ -20,4 +20,7 @@ def create(supplier: SuppliersSchema, db: Session = Depends(get_db)):
 def index(db: Session = Depends(get_db)):
     return db.query(Suppliers).all()
 
+@router.get('/{id}', response_model=ShowSuppliersSchema)
+def show(id: int, db: Session = Depends(get_db)):
+    return db.query(Suppliers).filter_by(id=id).first()
 
