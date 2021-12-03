@@ -13,6 +13,10 @@ class CouponSchema(BaseModel):
     type = TypeMode
     value = float
 
+class UpdateCouponSchema(CouponSchema):
+     limit: int
+     expire_at: datetime
+     
 class ShowCouponSchema(CouponSchema):
     code: str
     expire_at = date
@@ -20,3 +24,4 @@ class ShowCouponSchema(CouponSchema):
 
     class config:
         orm_mode = True
+

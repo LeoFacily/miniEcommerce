@@ -2,7 +2,7 @@ from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import CheckConstraint, ForeignKey
-from sqlalchemy.sql.sqltypes import DateTime, Integer, String, Float, Boolean
+from sqlalchemy.sql.sqltypes import Date, DateTime, Integer, String, Float, Boolean
 from app.db.db import Base
 
 class Category(Base):
@@ -59,4 +59,29 @@ class Coupon(Base):
     type = Column(String(15))
     value = Column(Float(10,2))
     teste = Column(String(50))
+
+class Customer(Base):
+    __tablename__ = 'customers'
+
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(45))
+    last_name= Column(String(45))
+    phone_number = Column(String(15))
+    genre = Column(String(45))
+    document_id = Column(String(45))
+    birth_date = Column(Date)
+    user_id = Column(Integer)
+
+class Address(Base):
+    __tablename__ = 'addresses'
+
+    id = Column(Integer, primary_key=True)
+    addresses = Column(String(255))
+    city = Column(String(45))
+    state = Column(String(2))
+    number = Column(String(10))
+    zipcode = Column(String(6))
+    neighbourhood = Column(String(45))
+    primary = Column(Boolean)
+    customer_id = Column(Integer, ForeignKey(Customer.id))
 
