@@ -5,13 +5,13 @@ from sqlalchemy.sql.schema import CheckConstraint, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, Float, Boolean
 from app.db.db import Base
 
-class Categories(Base):
+class Category(Base):
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
 
-class Suppliers(Base):
+class Supplier(Base):
     __tablename__ = 'suppliers'
 
     id = Column(Integer, primary_key=True)
@@ -23,16 +23,16 @@ class Product(Base):
     id = Column(Integer, primary_key=True)
     description = Column(String(150))
     price = Column(Float(10,2))
-    supplier_id = Column(Integer, ForeignKey(Suppliers.id))
-    supplier = relationship(Suppliers)
+    supplier_id = Column(Integer, ForeignKey(Supplier.id))
+    supplier = relationship(Supplier)
     technical_details = Column(String(255))
     image = Column(String(255))
-    category_id = Column(Integer, ForeignKey(Categories.id))
+    category_id = Column(Integer, ForeignKey(Category.id))
     #category = relationship("Categories", backref="categories")
     visible = Column(Boolean, default=True)
 
-class PaymentMethods(Base):
-    __tablename__ = 'paymentmethods'
+class PaymentMethod(Base):
+    __tablename__ = 'payment_methods'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
@@ -46,7 +46,7 @@ class ProductDiscount(Base):
     product = relationship("Product")
     mode = Column(String(45))
     value = Column(Float(10,2))
-    payment_method_id = Column(Integer, ForeignKey(PaymentMethods.id))
-    payment_method = relationship(PaymentMethods)
+    payment_method_id = Column(Integer, ForeignKey(PaymentMethod.id))
+    payment_method = relationship(PaymentMethod)
 
 

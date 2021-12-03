@@ -1,11 +1,11 @@
 from os import name
 from pydantic import BaseModel
 
-class SuppliersSchema(BaseModel):
+class SupplierSchema(BaseModel):
     id: int
     name: str
 
-class ShowSuppliersSchema(SuppliersSchema):
+class ShowSupplierSchema(SupplierSchema):
     id: int
 
     class config:
