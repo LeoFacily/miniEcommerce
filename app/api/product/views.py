@@ -5,8 +5,6 @@ from fastapi import Depends
 from app.models.models import Product
 from app.repositories.product_repository import ProductRepository
 from .schemas import ProductSchema, ShowProductSchema
-from sqlalchemy.orm import Session
-from app.db.db import get_db
 
 router = APIRouter()
 

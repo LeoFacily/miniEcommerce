@@ -2,7 +2,7 @@ from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import CheckConstraint, ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String, Float, Boolean
+from sqlalchemy.sql.sqltypes import DateTime, Integer, String, Float, Boolean
 from app.db.db import Base
 
 class Category(Base):
@@ -49,4 +49,13 @@ class ProductDiscount(Base):
     payment_method_id = Column(Integer, ForeignKey(PaymentMethod.id))
     payment_method = relationship(PaymentMethod)
 
+class Coupon(Base):
+    __tablename__ = 'coupons'
+
+    id = Column(Integer, primary_key=True, unique=True)
+    code = Column(String(10))
+    expire_at = Column(DateTime)
+    limit = Column(Integer)
+    type = Column(String(15))
+    value = Column(Float(10,2))
 

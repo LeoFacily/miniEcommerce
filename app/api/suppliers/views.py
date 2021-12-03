@@ -4,23 +4,14 @@ from fastapi import Depends
 
 from app.models.models import Supplier
 from .schemas import SupplierSchema, ShowSupplierSchema
-
-from sqlalchemy.orm import Session
-from app.db.db import get_db
+from app.repositories.supplier_repository import SupplierRepository
 
 router = APIRouter()
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(supplier: SupplierSchema, db: Session = Depends(get_db)):
-    db.add(Supplier(**supplier.dict()))
-    db.commit()
+def create(supplier: SupplierSchema, repository: SupplierRepository = Depends()):
+    repository.create(Supplier(**supplier.dict()))
 
-#@router.get('/', response_model=List[ShowProductSchema])
-@router.get('/')
-def index(db: Session = Depends(get_db)):
-    return db.query(Supplier).all()
-
-@router.get('/{id}', response_model=ShowSupplierSchema)
-def show(id: int, db: Session = Depends(get_db)):
-    return db.query(Supplier).filter_by(id=id).first()
-
+@router.get('/', response_model=List[ShowSupplierSchema])
+def index(repository: SupplierRepository = Depends()):
+    return repository.get_all()
