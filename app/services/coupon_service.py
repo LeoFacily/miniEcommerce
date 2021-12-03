@@ -10,4 +10,9 @@ class CouponService:
 
     def create_coupon(self, coupon: CouponSchema):
         self.coupon_repository.create(**coupon.dic())
-        
+                
+    def update_coupon(self, coupon: CouponSchema):
+        self.coupon_repository.update()
+
+    def delete_coupon(self, coupon: CouponSchema):
+        self.coupon_repository.remove()

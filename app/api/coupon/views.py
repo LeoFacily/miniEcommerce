@@ -21,10 +21,11 @@ def index(repository: CouponRepository = Depends()):
 #3 - Somente os campos limit e expire_at poderão ser alterados
 @router.put('/{id}')
 def update(coupon: CouponSchema, repository: CouponRepository = Depends()):   
-    repository.update(coupon.dict())
+    #repository.update(coupon.dict())
+    CouponService.update_coupon(coupon)
 
 #Cupons podem ser removidos
 @router.delete('/')
 def delete(coupon: CouponSchema, repository: CouponRepository = Depends()):
-    pass
+    CouponService.delete(coupon)
 
