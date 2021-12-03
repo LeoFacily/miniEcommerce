@@ -27,5 +27,5 @@ def update(coupon: CouponSchema, repository: CouponRepository = Depends()):
 #Cupons podem ser removidos
 @router.delete('/')
 def delete(coupon: CouponSchema, repository: CouponRepository = Depends()):
-    CouponService.delete(coupon)
+    CouponService.delete_coupon(coupon)
 

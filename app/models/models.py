@@ -58,4 +58,5 @@ class Coupon(Base):
     limit = Column(Integer)
     type = Column(String(15))
     value = Column(Float(10,2))
+    teste = Column(String(50))
 
