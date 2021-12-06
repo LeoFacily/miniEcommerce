@@ -6,11 +6,13 @@ from app.models.models import User
 from app.repositories.user_repository import UserRepository
 import bcrypt
 
+from app.services.auth_service import authenticate
+
 class UserService:
     def __init__(self, user_repository: UserRepository = Depends()):
         self.user_repository = user_repository
 
-    def create_user(self, user: UserSchema):
+    def create_user(self, user: UserSchema = Depends(authenticate)):
         user.password = bcrypt.hashpw(
         user.password.encode('utf8'), bcrypt.gensalt())
     

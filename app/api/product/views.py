@@ -4,9 +4,10 @@ from fastapi import Depends
 
 from app.models.models import Product
 from app.repositories.product_repository import ProductRepository
+from app.services.auth_service import only_admin
 from .schemas import ProductSchema, ShowProductSchema
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create(product: ProductSchema, repository : ProductRepository = Depends()):
