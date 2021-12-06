@@ -8,19 +8,20 @@ class TypeMode(str, Enum):
 
 class CouponSchema(BaseModel):
     code: str
-    expire_at = date
-    limit = int
-    type = TypeMode
-    value = float
+    expire_at: date
+    limit: int
+    type: TypeMode
+    value: float
 
 class UpdateCouponSchema(CouponSchema):
+     id: int
      limit: int
      expire_at: datetime
      
 class ShowCouponSchema(CouponSchema):
     code: str
-    expire_at = date
-    limit = int
+    expire_at: date
+    limit: int
 
     class config:
         orm_mode = True

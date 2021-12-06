@@ -1,3 +1,4 @@
+from enum import unique
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import column
@@ -85,3 +86,10 @@ class Address(Base):
     primary = Column(Boolean)
     customer_id = Column(Integer, ForeignKey(Customer.id))
 
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    display_name = Column(String(100))
+    email = Column(String(50), unique=True)
+    role = Column(String(10))
+    password = Column(String(100))

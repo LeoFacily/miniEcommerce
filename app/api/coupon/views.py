@@ -14,10 +14,6 @@ def create(coupon: CouponSchema, repository: CouponRepository = Depends()):
     #repository.create(Coupon(**coupon.dict()))
     CouponService.create_coupon(Coupon(**Coupon.dict()))
 
-@router.post('/', status_code= status.HTTP_201_CREATED)
-def create(coupon: CouponSchema, service: CouponService = Depends()):
-    service.create(coupon)
-
 @router.get('/', response_model=List[ShowCouponSchema])
 def index(repository: CouponRepository = Depends()):
     return repository.get_all()
@@ -32,7 +28,7 @@ def update(id: int, coupon: UpdateCouponSchema, repository: CouponRepository = D
     CouponService.update_coupon(id, coupon)
 
 #Cupons podem ser removidos
-@router.delete('/{id}')
-def delete(id: id, repository: CouponRepository = Depends()):
-    repository.delete(id)
+#@router.delete('/{id}')
+#def delete(id: id, repository: CouponRepository = Depends()):
+#    repository.delete(id)
 

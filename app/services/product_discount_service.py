@@ -1,29 +1,29 @@
-from fastapi import Depends, status
-from fastapi.exceptions import HTTPException
-from starlette.status import HTTP_400_BAD_REQUEST
-
-from app.api.product_discount.schemas import ProductDiscountSchema
-from app.repositories.product_discount_repository import ProductDiscountRepository
+from fastapi import Depends
+from app.common.exceptions import PaymentMethodDiscountAlreadyExistsException, PaymentMethodsNotAvailableException
+from app.models.models import ProductDiscount
 from app.repositories.payment_method_repository import PaymentMethodRepository
-from app.models.models import Product, PaymentMethod, ProductDiscount
+from app.repositories.product_discount_repository import ProductDiscountRepository
+from app.api.product_discount.schemas import ProductDiscountSchema
+
 
 class ProductDiscountService:
-
-    def __init__(self, product_discount_repository: ProductDiscountRepository = Depends(), payment_method_repository: PaymentMethodRepository = Depends()):
-        self.product_discount_repository = product_discount_repository
+    def __init__(self, payment_method_repository: PaymentMethodRepository = Depends(),
+                 product_discount_repository: ProductDiscountRepository = Depends()):
         self.payment_method_repository = payment_method_repository
+        self.product_discount_repository = product_discount_repository
 
-    def create_discount(self, product_discount: ProductDiscountSchema):
-        self.product_discount_repository.create(**product_discount.dic())
+    def create_discount(self, discount: ProductDiscountSchema):
+        payment_method = self.payment_method_repository.get_by_id(
+            discount.payment_method_id)
 
-    def discount_validation(self, id: int, product_discount: ProductDiscountSchema):
-        payment_method = self.payment_method_repository.get_by_id(product_discount.payment_method_id)
-        
-        if not payment_method:
-            raise HTTPException(status_code=status.HTTP_200_OK, detail='Desconto já existente')
-        elif payment_method.query.enabled != True:
-            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail='Invalid Payment')
+        if not payment_method or not payment_method.enabled:
+            raise PaymentMethodsNotAvailableException()
 
-    def delete(self, int:id):
-        self.sessiproduct_discount_repository.query(self.model).filter(id=id).delete()
-        self.session.commit()
+        find_payment_method_existence = self.product_discount_repository.filter(
+            {'product_id': discount.product_id, 'payment_method_id': discount.payment_method_id})
+
+        if find_payment_method_existence:
+            raise PaymentMethodDiscountAlreadyExistsException()
+
+        self.product_discount_repository.create(
+            ProductDiscount(**discount.dict()))
