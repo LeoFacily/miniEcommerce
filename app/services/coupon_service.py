@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException, status
 from app.api.coupon.schemas import CouponSchema
+from app.models.models import Coupon
 from app.repositories.coupon_repository import CouponRepository
 
 class CouponService:
@@ -8,8 +9,9 @@ class CouponService:
 
     def create_coupon(self, coupon: CouponSchema):
 
-        if self.coupon_repository.query_by_code(coupon.code):
-            raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail='Cupom inválido')
+        #if self.coupon_repository.query_by_code(coupon.code):
+        if self.coupon_repository.query(Coupon).filter(Coupon.code == coupon.code):
+            raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail='Cupom já existente!')
             
         CouponRepository.create(**coupon.dic())
                 
@@ -17,4 +19,6 @@ class CouponService:
         CouponRepository.update(id, coupon.dict())
 
     def delete_coupon(self, coupon: CouponSchema):
+        #self.coupon_repository.query.distinct()
+        self.coupon_repository.query(Coupon).filter(Coupon.code == coupon.code)
         CouponRepository.delete(id)
