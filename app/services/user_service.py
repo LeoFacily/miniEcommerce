@@ -21,3 +21,4 @@ class UserService:
         UserRepository.create(User(**user.dict()))
 
 
+

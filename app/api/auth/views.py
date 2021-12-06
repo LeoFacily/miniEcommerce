@@ -3,8 +3,8 @@ from fastapi.param_functions import Depends
 from .schemas import ShowUserSchema
 from app.models.models import User
 
-
 from app.services.auth_service import authenticate, get_user
+
 router = APIRouter()
 
 
@@ -20,3 +20,6 @@ def login(token: str = Depends(authenticate)):
                             detail='These credentials are invalid')
 
     return {'access_token': token, 'token_type': 'bearer'}
+
+
+

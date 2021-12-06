@@ -61,6 +61,14 @@ class Coupon(Base):
     value = Column(Float(10,2))
     teste = Column(String(50))
 
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    display_name = Column(String(100))
+    email = Column(String(50), unique=True)
+    role = Column(String(10))
+    password = Column(String(100))
+
 class Customer(Base):
     __tablename__ = 'customers'
 
@@ -71,7 +79,7 @@ class Customer(Base):
     genre = Column(String(45))
     document_id = Column(String(45))
     birth_date = Column(Date)
-    user_id = Column(Integer)
+    user_id = Column(Integer, ForeignKey(User.id))
 
 class Address(Base):
     __tablename__ = 'addresses'
@@ -86,10 +94,3 @@ class Address(Base):
     primary = Column(Boolean)
     customer_id = Column(Integer, ForeignKey(Customer.id))
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    display_name = Column(String(100))
-    email = Column(String(50), unique=True)
-    role = Column(String(10))
-    password = Column(String(100))
