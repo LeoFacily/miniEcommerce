@@ -11,8 +11,9 @@ from .coupon.views import router as coupon_router
 from .customer.views import router as customer_router
 from .address.views import router as address_router
 from .user.views import router as user_router
+#from .order.views import router as order_router
+
 from .auth.views import router as auth_router
-from .order.views import router as order_router
 from app.services.auth_service import authenticate, get_user
 
 
@@ -38,4 +39,4 @@ router.include_router(user_router, prefix='/users')
 
 router.include_router(auth_router, prefix='/auth', tags=['auth'])
 
-router.include_router(order_router, prefix='/orders', tags=['orders'])
+#router.include_router(order_router, prefix='/order', tags=['orders'])
