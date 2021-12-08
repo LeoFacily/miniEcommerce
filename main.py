@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.router import router
-from app.db.db import engine
+#from app.db.db import engine
 
 #importa e excuta metadade do Base Engine
 #Base.metadata.create_all(engine)

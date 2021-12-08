@@ -10,25 +10,24 @@ from app.services.auth_service import only_admin
 router = APIRouter(dependencies=[Depends(only_admin)])
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(coupon: CouponSchema, repository: CouponRepository = Depends()):
+def create(coupon: CouponSchema, service: CouponService = Depends()):
     #repository.create(Coupon(**coupon.dict()))
-    CouponService.create_coupon(Coupon(**Coupon.dict()))
+    CouponService.create(Coupon)
 
 @router.get('/', response_model=List[ShowCouponSchema])
 def index(repository: CouponRepository = Depends()):
-    return repository.get_all()
+    return CouponRepository.get_all()
 
 @router.get('/{id}', response_model=ShowCouponSchema)
 def show(id: int, repository: CouponRepository = Depends()):
-    return repository.get_by_id(id)
+    return CouponRepository.get_by_id(id)
 
 #3 - Somente os campos limit e expire_at poderão ser alterados
 @router.put('/{id}')
 def update(id: int, coupon: UpdateCouponSchema, repository: CouponRepository = Depends()):   
-    CouponService.update_coupon(id, coupon)
+    CouponRepository.update(id, coupon.dict())
 
 #Cupons podem ser removidos
-#@router.delete('/{id}')
-#def delete(id: id, repository: CouponRepository = Depends()):
-#    repository.delete(id)
-
+@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete(id: int, repository: CouponRepository = Depends()):
+    CouponRepository.delete(id)

@@ -1,28 +1,23 @@
-from datetime import date, datetime
 from pydantic import BaseModel
 from enum import Enum
+from typing import List, Optional
 
-class TypeMode(str, Enum):
-    Value = 'value'
-    Percentage = 'Percentage'
+class OrderStatus(str, Enum):
+    ORDER_PLACED = 'ORDER PLACED'
+    ORDER_PAID = 'ORDER PAID'
+    ORDER_SHIPPED = 'ORDER SHIPPED'
+    ORDER_RECEIVED = 'ORDER RECEIVED'
+    ORDER_COMPLETED = 'ORDER COMPLETED'
+    ORDER_CANCELLED = 'ORDER CANCELLED'
 
-class CouponSchema(BaseModel):
-    code: str
-    expire_at: date
-    limit: int
-    type: TypeMode
-    value: float
+class OrderProductSchema(BaseModel):
+    id: int
+    quantity: int
 
-class UpdateCouponSchema(CouponSchema):
-     id: int
-     limit: int
-     expire_at: datetime
-     
-class ShowCouponSchema(CouponSchema):
-    code: str
-    expire_at: date
-    limit: int
+class OrderSchema(BaseModel):
+    address_id: int
+    payment_method: int
+    coupon_code: Optional[str] = None
+    products: List[OrderProductSchema]
 
-    class config:
-        orm_mode = True
 

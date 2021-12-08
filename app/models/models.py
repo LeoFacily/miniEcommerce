@@ -107,4 +107,19 @@ class Order(Base):
     payment_form_id = Column(Integer, ForeignKey(PaymentMethod.id))
     total_discount = Column(Float(10,2))
 
+class OrderStatus(Base):
+    __tablename__ = 'order_statuses'
+    id = Column(Integer, primary_key=True)
+    order_id = Column(Integer, ForeignKey('orders.id'))
+    order = relationship(Order)
+    status = Column(String(15))
+    created_at = Column(DateTime)
 
+class OrderProducts(Base):
+    __tablename__ = 'order_products'
+    id = Column(Integer, primary_key=True)
+    order_id = Column(Integer, ForeignKey('orders.id'))
+    order = relationship(Order)
+    product_id = Column(Integer, ForeignKey('products.id'))
+    product = relationship(Product)
+    quantity = Column(Integer)
