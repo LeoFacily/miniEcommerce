@@ -9,17 +9,13 @@ class CouponService:
         self.coupon_repository = coupon_repository
 
     def create(self, coupon: CouponSchema):
-
-        #if self.coupon_repository.query_by_code(coupon.code):
-        result = self.coupon_repository.find_by_code(coupon.code)
-        #if self.coupon_repository.query(Coupon).filter(Coupon.code == coupon.code):
-        if result:
-            raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail='Cupom já existente!')
-            
-        self.coupon_repository.create(Coupon(**coupon.dict()))
+        try:
+            self.coupon_repository.create(Coupon(**coupon.dict()))
+        except CouponCodeAleradyExistsException as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
                 
     def update_coupon(self, coupon: CouponSchema):
-        CouponRepository.update(id, coupon.dict())
+        self.coupon_repository.update(id, coupon.dict())
 
     def delete_coupon(self, coupon: CouponSchema):
         #self.coupon_repository.query.distinct()
@@ -30,6 +26,7 @@ class CouponService:
         except CouponCodeAleradyExistsException as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
 
-        
-        
         self.session.commit()
+
+    def get_coupon_type(self, coupon: CouponSchema):
+        return self.coupon_repository.query(Coupon).filter(Coupon.code == coupon.code)

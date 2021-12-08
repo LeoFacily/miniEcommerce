@@ -1,6 +1,17 @@
 from pydantic import BaseModel
 from enum import Enum
 from typing import List, Optional
+from datetime import datetime
+
+class ProductSchema(BaseModel):
+    id: int
+    quantity: int
+
+class OrderSchema(BaseModel):
+    address_id: int
+    payment_method: int
+    coupon_code: Optional[str] = None
+    products: List[ProductSchema]
 
 class OrderStatus(str, Enum):
     ORDER_PLACED = 'ORDER PLACED'
@@ -10,14 +21,20 @@ class OrderStatus(str, Enum):
     ORDER_COMPLETED = 'ORDER COMPLETED'
     ORDER_CANCELLED = 'ORDER CANCELLED'
 
-class OrderProductSchema(BaseModel):
-    id: int
-    quantity: int
+class OrderStatusSchema(BaseModel):
+    status:OrderStatus
+    created_at: datetime = datetime.now()
 
 class OrderSchema(BaseModel):
-    address_id: int
-    payment_method: int
-    coupon_code: Optional[str] = None
-    products: List[OrderProductSchema]
+    number: str = ''
+    status: str = ''
+    customer_id:int = 0
+    created_at: datetime = datetime.now()
+    address_id: int = 0
+    total_value: float = 0
+    payment_form_id: int = 0
+    total_discount: float = 0
 
+    class Config:
+        orm_mode = True
 

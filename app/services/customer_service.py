@@ -18,4 +18,5 @@ class CustomerService:
     def update_customer(self, customer: CustomerSchema):
         CustomerRepository.update()
 
-    
+    def get_customer_id(self, id: int):
+        return self.customer_repository.get_by_id

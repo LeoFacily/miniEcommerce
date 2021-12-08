@@ -104,7 +104,7 @@ class Order(Base):
     created_at = Column(DateTime)
     address_id = Column(Integer, ForeignKey(Address.id))
     total_value = Column(Float(10,2))
-    payment_form_id = Column(Integer, ForeignKey(PaymentMethod.id))
+    payment_method_id = Column(Integer, ForeignKey(PaymentMethod.id))
     total_discount = Column(Float(10,2))
 
 class OrderStatus(Base):
@@ -115,7 +115,7 @@ class OrderStatus(Base):
     status = Column(String(15))
     created_at = Column(DateTime)
 
-class OrderProducts(Base):
+class OrderProduct(Base):
     __tablename__ = 'order_products'
     id = Column(Integer, primary_key=True)
     order_id = Column(Integer, ForeignKey('orders.id'))
