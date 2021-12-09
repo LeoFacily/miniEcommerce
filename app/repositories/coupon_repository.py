@@ -9,6 +9,8 @@ class CouponRepository(BaseRepository):
         super().__init__(session, Coupon)
 
     def find_by_code(self, code):
-        return self.session.query(self.mode).filter_by(code=code).first()
+        return self.session.query(self.mode).filter(code=code).first()
 
-   
+    def delete(self, id: int):
+        self.session.query(self.model).filter_by(id=id).delete()
+        self.session.commit()

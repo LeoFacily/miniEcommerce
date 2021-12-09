@@ -21,4 +21,4 @@ class BaseRepository:
         return self.session.query(self.model).filter_by(id=id).first()
 
     def filter(self, args):
-        return self.query().filter_by(**args).all()
+        return self.session.query(self.model).filter_by(**args).all()
