@@ -2,9 +2,9 @@
 #from app.db.db import get_db
 
 from typing import List
-from fastapi import APIRouter, status
-from fastapi import Depends
+from fastapi import APIRouter, status, Depends
 from app.db.db import get_db
+from sqlalchemy.orm import Session
 
 from app.models.models import Category
 from app.repositories.category_repository import CategoryRepository
@@ -18,22 +18,20 @@ router = APIRouter()
 def create(category: CategorySchema, repository: CategoryRepository = Depends()):
     repository.create(Category(**category.dict()))
 
-@router.get('/', response_model=List[ShowCategorySchema])
-def index(repository: CategoryRepository = Depends(get_db)):
+#@router.get('/', response_model=List[ShowCategorySchema])
+#def index(repository: CategoryRepository = Depends(get_db)):
     #return repository.get_all()
-    return CategoryRepository.get_all()
+ #   return CategoryRepository.get_all()
     #return db.query(Category).all()
-    
+
+@router.get('/', response_model=List[ShowCategorySchema])
+def index(db: Session = Depends(get_db)):
+    return db.query(Category).all()    
 
 #@router.post('/', status_code=status.HTTP_201_CREATED)
 #def create(category: CategorySchema, db: Session = Depends(get_db)):
 #    db.add(Category(**category.dict()))
 #    db.commit()
-
-#@router.get('/', response_model=List[ShowProductSchema])
-#@router.get('/')
-#def index(db: Session = Depends(get_db)):
-#    return db.query(Category).all()    
 
 #@router.get('/{id}', response_model=ShowCategorySchema)
 #def show(id: int, db: Session = Depends(get_db)):
