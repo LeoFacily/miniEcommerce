@@ -20,7 +20,7 @@ def create_token(data: dict, expire_delta=None):
     if expire_delta:
         expire = datetime.utcnow() + expire_delta
     else:
-        expire = datetime.utcnow() + timedelta(seconds=2)
+        expire = datetime.utcnow() + timedelta(seconds=120)
 
     payload.update({'exp': expire})
 

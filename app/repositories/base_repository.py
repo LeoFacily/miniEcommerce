@@ -10,11 +10,14 @@ class BaseRepository:
         self.session.commit()
 
     def get_all(self):
-        return self.session.Query(self.mode).all()
+        return self.query().all()    
 
     def update(self, id: int, attributes: dict):
         self.session.query(self.model).filter_by(id=id).update(attributes)
         self.session.commit()
 
     def get_by_id(self, id: int):
-        self.session.query(self.model).filter_by(id=id).first()
+        return self.session.query(self.model).filter_by(id=id).first()
+
+    def filter(self, args):
+        return self.query().filter_by(**args).all()
