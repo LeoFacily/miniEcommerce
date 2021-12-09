@@ -29,7 +29,7 @@ class Product(Base):
     technical_details = Column(String(255))
     image = Column(String(255))
     category_id = Column(Integer, ForeignKey(Category.id))
-    #category = relationship("Categories", backref="categories")
+    category = relationship(Category)
     visible = Column(Boolean, default=True)
 
 class PaymentMethod(Base):
@@ -53,13 +53,12 @@ class ProductDiscount(Base):
 class Coupon(Base):
     __tablename__ = 'coupons'
 
-    id = Column(Integer, primary_key=True, unique=True)
-    code = Column(String(10))
+    id = Column(Integer, primary_key=True)
+    code = Column(String(10), unique=True)
     expire_at = Column(DateTime)
     limit = Column(Integer)
-    type = Column(String(15))
+    mode = Column(String(20))
     value = Column(Float(10,2))
-    teste = Column(String(50))
 
 class User(Base):
     __tablename__ = 'users'

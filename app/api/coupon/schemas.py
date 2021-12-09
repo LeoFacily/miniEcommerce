@@ -1,20 +1,20 @@
 from datetime import date, datetime
+from typing import Optional
 from pydantic import BaseModel
 from enum import Enum
 
-class CouponType(str, Enum):
-    Value = 'value'
-    Percentage = 'Percentage'
+class CouponMode(str, Enum):
+    VALUE = 'value'
+    PERCENTAGE = 'percentage'
 
 class CouponSchema(BaseModel):
     code: str
-    expire_at: date
-    limit: int
-    type: CouponType
+    expire_at: Optional[datetime] = None
+    limit: Optional[int] = None
+    mode: CouponMode
     value: float
 
 class UpdateCouponSchema(CouponSchema):
-     id: int
      limit: int
      expire_at: datetime
 
@@ -23,10 +23,9 @@ class UpdateCouponsSchema(BaseModel):
     expire_at: datetime     
 
 class ShowCouponSchema(CouponSchema):
-    code: str
-    expire_at: date
-    limit: int
+    id: int
 
     class config:
         orm_mode = True
+
 

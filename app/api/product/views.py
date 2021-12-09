@@ -23,4 +23,12 @@ def create(product: ProductSchema, repository : ProductRepository = Depends()):
 
 @router.get('/', response_model=List[ShowProductSchema])
 def index(db: Session = Depends(get_db)):
-    return db.query(Product).all()
+    return db.query(Product).all() 
+
+#@router.get('/', response_model=List[ShowProductSchema]) 
+#def index(db: ProductRepository = Depends()):
+#    return db.get_all()
+
+@router.get('/{id}', response_model=ShowProductSchema)
+def show(id: int, repository: ProductRepository = Depends()):
+    return repository.get_by_id(id)

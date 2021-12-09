@@ -5,13 +5,14 @@ class BaseRepository:
         self.session = session
         self.model = model
     
+    def get_all(self):
+        #return self.session.query(self.model).all()    
+        return self.query().all()
+
     def create(self, model: Base):
         self.session.add(model)
         self.session.commit()
-
-    def get_all(self):
-        return self.query().all()    
-
+    
     def update(self, id: int, attributes: dict):
         self.session.query(self.model).filter_by(id=id).update(attributes)
         self.session.commit()

@@ -9,11 +9,15 @@ class CouponService:
         self.coupon_repository = coupon_repository
 
     def create(self, coupon: CouponSchema):
+
+        if self.coupon_repository.find_by_code(coupon.code):
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='This coupon is already in use')
+
         try:
             self.coupon_repository.create(Coupon(**coupon.dict()))
         except CouponCodeAleradyExistsException as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
-                
+
     def update_coupon(self, coupon: CouponSchema):
         self.coupon_repository.update(id, coupon.dict())
 

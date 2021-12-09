@@ -19,10 +19,9 @@ def create(product_discount: ProductDiscountSchema, repository: ProductDiscountR
     #repository.create(ProductDiscount(product_discount.dict()))
     ProductDiscountService.create_discount(product_discount)
 
-@router.get('/', response_model=List[ShowProductDiscountSchema])
-def index(repository: ProductDiscountRepository = Depends()):
-    #return repository.get_all()
-    ProductDiscountService.listar()
+#@router.get('/', response_model=List[ShowProductDiscountSchema])
+#def index(repository: ProductDiscountRepository = Depends()):
+#    return repository.get_all()
 
 @router.get('/', response_model=List[ShowProductDiscountSchema])
 def index(db: Session = Depends(get_db)):
