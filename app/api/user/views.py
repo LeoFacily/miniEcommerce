@@ -13,8 +13,9 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(user_schema: UserSchema, repository: UserRepository = Depends()):
-    UserService.create_user(User(**user_schema.dic()))
+def create(user: UserSchema, db: Session = Depends(get_db)):
+    db.add(User(**user.dict()))
+    db.commit()
 
 #@router.get('/')
 #def index(repository: UserRepository = Depends()):

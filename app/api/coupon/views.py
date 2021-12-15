@@ -13,9 +13,13 @@ from app.services.auth_service import only_admin
 router = APIRouter()
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(coupon: CouponSchema, service: CouponService = Depends()):
-    #repository.create(Coupon(**coupon.dict()))
-    service.create(Coupon)
+def create(coupon: CouponSchema, db: Session = Depends(get_db)):
+    model = Coupon(**coupon.dict())
+    db.add(Coupon(**coupon.dict()))
+    db.commit
+
+    db.refresh(model)
+    return model
 
 @router.get('/', response_model=List[ShowCouponSchema])
 def index(db: Session = Depends(get_db)):

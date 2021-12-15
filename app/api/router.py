@@ -17,7 +17,6 @@ from .catalog.views import router as catalog_router
 from .auth.views import router as auth_router
 from app.services.auth_service import authenticate, get_user
 
-
 router = APIRouter()
 
 router.include_router(product_router, prefix='/product', tags=['product'])

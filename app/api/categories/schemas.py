@@ -5,7 +5,6 @@ class CategorySchema(BaseModel):
 
 class ShowCategorySchema(CategorySchema):
     id: int
-    name: str
     
     class Config:
         orm_mode = True

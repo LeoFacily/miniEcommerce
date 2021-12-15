@@ -1,8 +1,9 @@
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from app.db.db import get_db
-from app.models.models import Base, Category, Supplier, User
+from app.models.models import Base, Category, Coupon, Supplier, User
 from app.app import app
 import pytest
 import factory
@@ -33,6 +34,20 @@ def client(override_get_db):
     client = TestClient(app)
     return client
 
+@pytest.fixture()
+def coupon_factory(db_session):
+    class CouponFactory(factory.alchemy.SQLAlchemyModelFactory):
+        class Meta:
+            model = Coupon
+            sqlalchemy_session = db_session
+        
+        code: factory.Faker('code')
+        expire_at: factory.Faker('expire_at')
+        limit: factory.Faker('limit')
+        mode: factory.Faker('mode')
+        value: factory.Faker('value')
+
+    return CouponFactory
 
 @pytest.fixture()
 def user_factory(db_session):

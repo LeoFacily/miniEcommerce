@@ -18,10 +18,14 @@ router = APIRouter()
 def index(db: Session = Depends(get_db)):
     return db.query(Category).all()    
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ShowCategorySchema)
 def create(category: CategorySchema, db: Session = Depends(get_db)):
+    model = Category(**category.dict())
     db.add(Category(**category.dict()))
     db.commit()
+    
+    db.refresh(model)
+    return model
 
 #@router.post('/', status_code=status.HTTP_201_CREATED)
 #def create(category: CategorySchema, repository: CategoryRepository = Depends()):
