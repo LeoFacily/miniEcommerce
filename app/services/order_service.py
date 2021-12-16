@@ -3,8 +3,8 @@ from typing import List
 from fastapi import HTTPException, status
 from fastapi.param_functions import Depends
 from app.api.categories.views import create
-from app.api.order.schemas import OrderSchema, ProductSchema, OrderStatus, OrderStatusSchema, OrderProductSchema
-from app.api.coupon.schemas import CouponType
+from app.api.order.schemas import OrderSchema, ProductSchema, OrderStatus, OrderStatusSchema
+from app.api.coupon.schemas import CouponMode
 from app.models.models import OrderProduct, OrderStatus, Order, User
 from app.repositories.order_repository import OrderRepository
 from app.repositories.order_product_repository import OrderProductRepository
@@ -61,7 +61,7 @@ class OrderService:
     def get_discount(self, code: str, total_value: float):
         coupon_type = self.coupons_service.get_coupon_type(code)
 
-        if coupon_type(CouponType) == CouponType.Percentage:
+        if coupon_type(CouponMode) == CouponMode.Percentage:
             discount = (coupon_type.value * total_value)-total_value
         else:
             discount = coupon_type.value

@@ -7,12 +7,6 @@ class ProductSchema(BaseModel):
     id: int
     quantity: int
 
-class OrderSchema(BaseModel):
-    address_id: int
-    payment_method: int
-    coupon_code: Optional[str] = None
-    products: List[ProductSchema]
-
 class OrderStatus(str, Enum):
     ORDER_PLACED = 'ORDER PLACED'
     ORDER_PAID = 'ORDER PAID'
@@ -26,11 +20,14 @@ class OrderStatusSchema(BaseModel):
     created_at: datetime = datetime.now()
 
 class OrderSchema(BaseModel):
-    number: str = ''
-    status: str = ''
+    number: str = None
+    status: str = None
     customer_id:int = 0
     created_at: datetime = datetime.now()
     address_id: int = 0
+    payment_method_id: int
+    coupon_code: Optional[str] = None
+    products: List[ProductSchema]
     total_value: float = 0
     payment_form_id: int = 0
     total_discount: float = 0
